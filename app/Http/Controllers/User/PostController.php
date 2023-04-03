@@ -10,6 +10,7 @@ class PostController extends Controller
 {
     public function index()
     {
+        $test = '123';
 
         $post = (object) [
             'id' => 123,
