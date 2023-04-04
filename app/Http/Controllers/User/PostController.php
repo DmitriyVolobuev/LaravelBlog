@@ -4,21 +4,19 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $test = '123';
 
-        $post = (object) [
-            'id' => 123,
-            'title' => 'Тестовый заголовок поста',
-            'content' => 'Тестовый контент поста',
-        ];
-
-        $posts = array_fill(0, 10 , $post);
+        $posts = Post::query()
+            ->latest('published_at')
+            ->oldest('id')
+            ->paginate(12);
 
         return view('user.posts.index', compact('posts'));
     }
@@ -33,10 +31,21 @@ class PostController extends Controller
 
         $validated = validate($request->all(), [
             'title' => ['required', 'string', 'max:100'],
-            'content' => ['required', 'string'],
+            'content' => ['required', 'string', 'max:10000'],
+            'published_at' => ['nullable', 'string', 'date'],
+            'published' => ['nullable', 'boolean'],
         ]);
 
-        dd($validated);
+        $post = Post::query()->firstOrCreate([
+            'user_id' => User::query()->value('id'),
+            'title' => $validated['title'],
+        ], [
+            'content' => $validated['content'],
+            'published_at' => new Carbon($validated['published_at'] ?? null),
+            'published' => $validated['published'] ?? false,
+        ]);
+
+        dd($post->toArray());
 
         alert(__('Сохранено'));
 

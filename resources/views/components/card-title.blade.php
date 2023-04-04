@@ -1,4 +1,4 @@
-<h4 class="m-0">
+<h4 class="m-0 mb-4">
 
     {{ $slot }}
 
