@@ -13,14 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('currencies', function (Blueprint $table) {
+        Schema::table('posts', function (Blueprint $table) {
 
-            $table->string('id')->unique();
-
-            $table->timestamps();
-
-
-            $table->string('name');
+            $table->json('tags')->nullable();
 
         });
     }
@@ -32,6 +27,10 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('currencies');
+        Schema::table('posts', function (Blueprint $table) {
+
+            $table->dropColumn('tags');
+
+        });
     }
 };

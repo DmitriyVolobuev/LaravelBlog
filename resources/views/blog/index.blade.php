@@ -12,7 +12,7 @@
 
     @include('blog.filter')
 
-    @if(empty($posts))
+    @if($posts->isEmpty())
 
         {{ __('Нет ни одного поста') }}
 

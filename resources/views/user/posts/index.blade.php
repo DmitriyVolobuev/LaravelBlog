@@ -38,7 +38,7 @@
 
                 <div class="small text-muted">
 
-                    {{ $post->published_at->format('d.m.Y H:i:s') }}
+                    {{ $post->published_at?->format('d.m.Y H:i:s') }}
 
                 </div>
 

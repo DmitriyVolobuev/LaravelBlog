@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -11,55 +12,58 @@ class BlogController extends Controller
     public function index(Request $request)
     {
 
-        $categories = [
-            null => __('Все категории'),
-            1 => __('Первая категория'),
-            2 => __('Вторая категория')
-        ];
-
-        // select id, title, published_at from posts
-
-        $posts = Post::all(['id', 'title', 'published_at']);
-
         $validated = $request->validate([
-            'limit' => ['nullable', 'integer', 'min:1', 'max:100'],
-            'page' => ['nullable', 'integer', 'min:1', 'max:100'],
+
+            'search' => ['nullable', 'string', 'max:50'],
+            'from_date' => ['nullable', 'string', 'date'],
+            'to_date' => ['nullable', 'string', 'date', 'after:from_date'],
+            'tag' => ['nullable', 'string', 'max:10'],
+
         ]);
-
-        $page = $validated['page'] ?? 1;
-
-        $limit = $validated['limit'] ?? 12;
-
-        $offset = $limit * ($page - 1);
-
-        // select * from posts limit 12 offset 12
-
-        $posts = Post::query()->limit($limit)->offset($offset)->get();
-
-        $posts = Post::query()->paginate(12, ['id', 'title', 'published_at']);
 
         // select * from posts order by published_at desc
 
-        $posts = Post::query()
-            ->latest('published_at')
+        $query = Post::query()
+            ->where('published', true)
+            ->whereNotNull('published_at');
+
+        if ($search = $validated['search'] ?? null) {
+
+            $query->where('title', 'like', "%{$search}%");
+
+        }
+
+        if ($fromDate = $validated['from_date'] ?? null) {
+
+            $query->where('published_at', '>=', new Carbon($fromDate));
+
+        }
+
+        if ($toDate = $validated['to_date'] ?? null) {
+
+            $query->where('published_at', '<=', new Carbon($toDate));
+
+        }
+
+        if ($tag = $validated['tag'] ?? null) {
+
+            $query->whereJsonContains('tags', $tag);
+
+        }
+
+            $posts = $query->latest('published_at')
             ->oldest('id')
             ->paginate(12);
 
-//        dd($validated);
+        return view('blog.index', compact('posts', ));
 
-        return view('blog.index', compact('posts', 'categories'));
     }
 
-    public function show($post)
+    public function show(Request $request,Post $post)
     {
 
-        $post = (object) [
-            'id' => 123,
-            'title' => 'Тестовый заголовок поста',
-            'content' => 'Тестовый контент поста',
-        ];
-
         return view('blog.show', compact('post'));
+
     }
 
     public function like($post)
