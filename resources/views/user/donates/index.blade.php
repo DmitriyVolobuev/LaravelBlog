@@ -8,6 +8,12 @@
 
         {{ __('Мои донаты') }}
 
+        <x-slot name="link">
+
+            <a href="{{ route('user.posts') }}">{{ __('Назад') }}</a>
+
+        </x-slot>
+
     </x-title>
 
 {{--    @include('user.donates.filter')--}}

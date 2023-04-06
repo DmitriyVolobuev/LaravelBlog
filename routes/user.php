@@ -2,13 +2,14 @@
 
 use App\Http\Controllers\User\DonateController;
 use App\Http\Controllers\User\PostController;
+use App\Http\Controllers\User\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 
 // user
 
-//Route::prefix('user')->middleware(['auth', 'active'])->group(function () {
-Route::prefix('user')->group(function () {
+Route::prefix('user')->middleware(['auth', 'active'])->group(function () {
+//Route::prefix('user')->group(function () {
 
     Route::redirect('/', '/user/posts')->name('user');
 
@@ -29,6 +30,11 @@ Route::prefix('user')->group(function () {
 
     Route::put('posts/{post}/like', [PostController::class, 'like'])->name('user.posts.like');
 
+
+    Route::get('profile', [ProfileController::class, 'index'])->name('user.profile');
+
+
+    Route::get('posts*', [PostController::class, 'logout'])->name('user.logout');
 
     Route::get('donates', DonateController::class)->name('user.donates');
 
