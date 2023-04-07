@@ -8,6 +8,8 @@
     <title>@yield('page.title')</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <livewire:styles />
     @stack('css')
     <style>
         .container {
@@ -40,6 +42,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/js/bootstrap.min.js"></script>
+<livewire:scripts />
 @stack('js')
 
 </body>

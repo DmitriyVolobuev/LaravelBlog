@@ -42,6 +42,16 @@
 
         </div>
 
+        <div class="col-12 col-md-4">
+
+            <div class="mb-3">
+
+                <input type="text" class="w-full px-4 py-2 rounded" placeholder="Search posts..." wire:model.debounce.500ms="search">
+
+            </div>
+
+        </div>
+
 {{--        <div class="col-12 col-md-4">--}}
 
 {{--            <div class="mb-3">--}}
