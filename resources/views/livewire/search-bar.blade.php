@@ -1,50 +1,83 @@
 <div>
-    <div class="relative">
-        <input type="text" class="w-full px-4 py-2 rounded" placeholder="Search posts..." wire:model.debounce.500ms="search">
-        {{--        @if($search)--}}
-        <button class="bg-white border-0" wire:click="$set('search', '')">
-            <i class="fas fa-times text-gray-400 hover:text-gray-500"></i>
-        </button>
-        {{--        @endif--}}
-    </div>
 
-    @if($posts->isEmpty())
+    <div class="row">
 
-        {{ __('Нет ни одного поста') }}
+        <div class="col-12 col-md-4">
 
-    @else
+            <div class="mb-3">
 
-        <div class="row">
+                <div class="relative">
+                    <input type="text" class="form-control" placeholder="Название поста" wire:model.debounce.500ms="search">
+                    {{--        @if($search)--}}
+{{--                    <button class="bg-white border-0" wire:click="$set('search', '')">--}}
+{{--                        <i class="fas fa-times text-gray-400 hover:text-gray-500"></i>--}}
+{{--                    </button>--}}
+                    {{--        @endif--}}
+                </div>
 
-                @if ($posts->count())
+            </div>
 
-                    @foreach ($posts as $post)
+        </div>
 
-                        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-4">
 
-                            <x-post.card :post="$post" />
+            <div class="mb-3">
 
-                        </div>
+                <select class="form-control" name="category_id" wire:model="selectedCategory">
+
+                    <option value="">Все категории</option>
+
+                    @foreach($categories as $category)
+
+                        <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+
+                            {{ $category->name }}
+
+                        </option>
 
                     @endforeach
 
-                @else
+                </select>
 
-                    <p>No posts found.</p>
-
-                @endif
+            </div>
 
         </div>
 
-        <div class="mt-4">
-            {{ $posts->links('livewire.livewire-pagination') }}
-        </div>
+    </div>
 
-    @endif
+        @if($posts->isEmpty())
 
-</div>
+            {{ __('Нет ни одного поста') }}
 
-<div>
+        @else
 
+            <div class="row">
 
-</div>
+                    @if ($posts->count())
+
+                        @foreach ($posts as $post)
+
+                            <div class="col-12 col-md-4">
+
+                                <x-post.card :post="$post" />
+
+                            </div>
+
+                        @endforeach
+
+                    @else
+
+                        <p>No posts found.</p>
+
+                    @endif
+
+            </div>
+
+            <div class="mt-4">
+                {{ $posts->links('livewire.livewire-pagination') }}
+            </div>
+
+        @endif
+
+    </div>
+

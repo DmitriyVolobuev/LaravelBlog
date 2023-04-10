@@ -10,7 +10,7 @@
 
     </x-title>
 
-    @include('blog.filter')
+{{--    @include('blog.filter')--}}
 
     <livewire:search-bar />
 
