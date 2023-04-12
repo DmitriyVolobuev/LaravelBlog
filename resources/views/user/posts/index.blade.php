@@ -20,7 +20,7 @@
 
     </x-title>
 
-    @if(empty($posts))
+    @if(!auth()->user()->posts()->exists())
 
         {{ __('Нет ни одного поста') }}
 
@@ -28,17 +28,21 @@
 
         @foreach($posts as $post)
 
-            <div class="mb-3">
+            <div class="d-flex">
 
-                <h2 class="h6">
+                <div class="mb-3">
 
-                    <a href="{{ route('user.posts.show', $post->id) }}">{{ $post->title }}</a>
+                    <h2 class="h6">
 
-                </h2>
+                        <a href="{{ route('user.posts.show', $post->id) }}">{{ $post->title }}</a>
 
-                <div class="small text-muted">
+                    </h2>
 
-                    {{ $post->published_at?->format('d.m.Y H:i:s') }}
+                    <div class="small text-muted">
+
+                        {{ $post->published_at?->format('d.m.Y H:i:s') }}
+
+                    </div>
 
                 </div>
 

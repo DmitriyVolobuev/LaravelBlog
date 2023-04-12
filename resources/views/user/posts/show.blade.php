@@ -16,6 +16,19 @@
 
         <x-slot name="right">
 
+            <form class="pb-3" action="{{ route('user.posts.delete', $post->id) }}" method="POST">
+
+                @csrf
+                @method('DELETE')
+
+                <x-button type="submit">
+
+                    {{ __('Удалить') }}
+
+                </x-button>
+
+            </form>
+
             <x-button-link href="{{ route('user.posts.edit', $post->id) }}">
 
                 {{ __('Изменить') }}
@@ -34,7 +47,7 @@
 
     <div class="small text-muted">
 
-        {{ now()->format('d.m.Y H:i:s') }}
+        {{ $post->published_at?->format('d.m.Y H:i:s') }}
 
     </div>
 
