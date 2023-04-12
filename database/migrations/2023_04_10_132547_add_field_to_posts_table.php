@@ -13,14 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('currencies', function (Blueprint $table) {
+        Schema::table('posts', function (Blueprint $table) {
 
-            $table->string('id')->unique();
-
-            $table->timestamps();
-
-
-            $table->string('name');
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
 
         });
     }
@@ -32,6 +28,11 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('currencies');
+        Schema::table('posts', function (Blueprint $table) {
+
+            $table->dropForeign(['category_id']);
+            $table->dropColumn('category_id');
+
+        });
     }
 };

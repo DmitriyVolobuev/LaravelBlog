@@ -16,7 +16,7 @@
 
     </x-title>
 
-    <x-post.form action="{{ route('user.posts.update', $post->id) }}" method="put" :post="$post">
+    <x-post.form action="{{ route('user.posts.update', $post->id) }}" method="put" :categories="$categories" :post="$post">
 
         <x-button type="submit">
 

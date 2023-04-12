@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -15,15 +16,28 @@ class LoginController extends Controller
     public function store(Request $request)
     {
 
-        alert(__('Добро пожаловать'));
+        $validated = $request->validate([
+            'email' => ['required', 'email', 'max:50'],
+            'password' => ['required', 'string', 'min:7', 'max:50'],
+        ]);
 
-//        dd($session);
-//
-//        if (true) {
-//            return redirect()->back()->withInput();
-//        }
+        if (!$request->has('remember')) {
+            session(['lifetime' => 120]);
+        }else {
+            session(['lifetime' => 60 * 24 * 2]);
+        }
 
-        return redirect('user');
+        if (Auth::attempt($validated)) {
+
+            $request->session()->regenerate();
+
+            alert(__('Добро пожаловать'));
+
+            return redirect('user');
+
+        }
+
+        return back()->withInput($request->except('password'));
 
     }
 

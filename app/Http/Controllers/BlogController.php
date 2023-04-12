@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -10,52 +12,58 @@ class BlogController extends Controller
     public function index(Request $request)
     {
 
-        $data = $request->all();
+//        $validated = $request->validate([
+//
+//            'search' => ['nullable', 'string', 'max:50'],
+//            'from_date' => ['nullable', 'string', 'date'],
+//            'to_date' => ['nullable', 'string', 'date', 'after:from_date'],
+//            'tag' => ['nullable', 'string', 'max:10'],
+//
+//        ]);
+//
+//        // select * from posts order by published_at desc
+//
+//        $query = Post::query()
+//            ->where('published', true)
+//            ->whereNotNull('published_at');
+//
+//        if ($search = $validated['search'] ?? null) {
+//
+//            $query->where('title', 'like', "%{$search}%");
+//
+//        }
+//
+//        if ($fromDate = $validated['from_date'] ?? null) {
+//
+//            $query->where('published_at', '>=', new Carbon($fromDate));
+//
+//        }
+//
+//        if ($toDate = $validated['to_date'] ?? null) {
+//
+//            $query->where('published_at', '<=', new Carbon($toDate));
+//
+//        }
+//
+//        if ($tag = $validated['tag'] ?? null) {
+//
+//            $query->whereJsonContains('tags', $tag);
+//
+//        }
+//
+//            $posts = $query->latest('published_at')
+//            ->oldest('id')
+//            ->paginate(12);
 
-        $search = $request->input('search');
+        return view('blog.index');
 
-        $category_id = $request->input('category_id');
-
-//        dd($data);
-
-        $post = (object) [
-          'id' => 123,
-          'title' => 'Тестовый заголовок поста',
-          'content' => 'Тестовый контент поста',
-          'category_id' => 1,
-        ];
-
-        $posts = array_fill(0, 10 , $post);
-
-        $posts = array_filter($posts, function ($post) use ($search, $category_id) {
-            if ($search && !str_contains(mb_convert_case($post->title, MB_CASE_LOWER), mb_convert_case($search, MB_CASE_LOWER))) {
-                return false;
-            }
-
-            if ($category_id && $post->category_id != $category_id) {
-                return false;
-            }
-
-            return true;
-        });
-
-        $categories = [null => __('Все категории'), 1 => __('Первая категория'), 2 => __('Вторая категория')];
-
-//        dd($posts);
-
-        return view('blog.index', compact('posts', 'categories'));
     }
 
-    public function show($post)
+    public function show(Request $request,Post $post)
     {
 
-        $post = (object) [
-            'id' => 123,
-            'title' => 'Тестовый заголовок поста',
-            'content' => 'Тестовый контент поста',
-        ];
-
         return view('blog.show', compact('post'));
+
     }
 
     public function like($post)

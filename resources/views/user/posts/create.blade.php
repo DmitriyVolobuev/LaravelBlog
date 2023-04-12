@@ -16,7 +16,7 @@
 
     </x-title>
 
-    <x-post.form action="{{ route('user.posts.store') }}" method="post">
+    <x-post.form action="{{ route('user.posts.store') }}" method="post" :categories="$categories">
 
         <x-button type="submit">
 

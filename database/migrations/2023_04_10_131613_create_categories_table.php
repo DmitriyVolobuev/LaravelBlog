@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('currencies', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
 
-            $table->string('id')->unique();
+            $table->id();
 
             $table->timestamps();
-
 
             $table->string('name');
 
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('currencies');
+        Schema::dropIfExists('categories');
     }
 };

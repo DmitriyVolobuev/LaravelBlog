@@ -21,6 +21,30 @@
 
             </ul>
 
+            @auth()
+
+                <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+
+                    <li class="nav-item">
+                        <a href="{{ route('user.posts') }}" class="nav-link {{ active_link('user.posts') }}" aria-current="page">{{ __('Мои посты') }}</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('user.profile') }}" class="nav-link {{ active_link('user.profile') }}" aria-current="page">{{ __('Профиль') }}</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('user.donates') }}" class="nav-link {{ active_link('user.donates') }}" aria-current="page">{{ __('Статистика') }}</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{ route('user.logout') }}">{{ __('Выход') }}</a>
+                    </li>
+
+                </ul>
+
+            @else
+
             <ul class="navbar-nav ms-auto mb-2 mb-md-0">
 
                 <li class="nav-item">
@@ -32,6 +56,8 @@
                 </li>
 
             </ul>
+
+            @endauth
 
         </div>
     </div>
