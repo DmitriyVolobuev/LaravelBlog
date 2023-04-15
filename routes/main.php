@@ -25,6 +25,16 @@ Route::middleware('guest')->group(function () {
 
     Route::post('login', [LoginController::class, 'store'])->name('login.store');
 
+
+    Route::get('/login/google', [LoginController::class, 'redirectToProvider'])->name('login.google')->defaults('provider', 'google');
+
+    Route::get('/login/google/callback', [LoginController::class, 'handleProviderCallback'])->defaults('provider', 'google');
+
+
+    Route::get('/login/github', [LoginController::class, 'redirectToProvider'])->name('login.github')->defaults('provider', 'github');
+
+    Route::get('/login/github/callback', [LoginController::class, 'handleProviderCallback'])->defaults('provider', 'github');
+
     //Route::get('login/{user}/confirm', [LoginController::class, 'confirm'])->name('login.confirm');
     //
     //Route::post('login/{user}/confirm', [LoginController::class, 'confirm'])->name('login.confirm');

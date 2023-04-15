@@ -60,6 +60,9 @@
 
         </x-form>
 
+        <a href="{{ route('login.google') }}" class="btn btn-google">Авторизация через Google</a>
+        <a href="{{ route('login.github') }}" class="btn btn-github">Авторизация через GitHub</a>
+
     </x-card-body>
 
 </x-card>
